@@ -1,11 +1,17 @@
 import { useState } from "react";
 
-const Button = () => {
+const Button = (props) => {
   const [numOfClicks, setNumOfClicks] = useState(0);
   const handleClick = () => {
     setNumOfClicks(numOfClicks + 1);
+    props.incrementNumberOfClicks();
   };
-  return <button onClick={handleClick}>clicked {numOfClicks} times</button>;
+  return (
+    <div>
+      <button onClick={handleClick}>{props.title}</button>
+      <span>{numOfClicks} times</span>
+    </div>
+  );
 };
 
 export default Button;
