@@ -1,8 +1,14 @@
+import Link from "next/link";
+
 const MyApp = ({ Component, pageProps }) => {
   return (
     <>
-      <a href="/">Home</a>
-      <a href="/about">About Page</a>
+      <Link href="/">
+        <a>Home</a>
+      </Link>
+      <Link href="/about">
+        <a>About Page</a>
+      </Link>
       <Component {...pageProps} />
       <footer>Danny Festor was here</footer>
     </>
