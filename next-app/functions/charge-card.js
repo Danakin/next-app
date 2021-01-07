@@ -2,6 +2,7 @@ const fs = require("fs"); // can't use import because server is running node
 const path = require("path");
 
 const matter = require("gray-matter");
+const { callbackify } = require("util");
 
 const getProducts = () => {
   const directory = path.join(process.cwd(), "content");
@@ -20,7 +21,7 @@ const getProducts = () => {
   return products;
 };
 
-exports.handler = async (event, context) => {
+exports.handler = async (event, context, callback) => {
   const { cart } = JSON.parse(event.body);
   const products = getProducts();
 
@@ -33,12 +34,14 @@ exports.handler = async (event, context) => {
     return acc + (val.price / 100) * val.qty; // TODO: /100 correct??
   }, 0);
 
-  console.log(cartWithProducts, total);
-
   // talking to Stripe
   // charging the card
-  return {
+  // return {
+  //   statusCode: 200,
+  //   body: "I have charged that card many times!",
+  // };
+  callback(null, {
     statusCode: 200,
     body: "I have charged that card many times!",
-  };
+  });
 };
