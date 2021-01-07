@@ -5,6 +5,7 @@ export const Context = createContext();
 const Cart = ({ children }) => {
   const getInitialCart = () => JSON.parse(localStorage.getItem("cart"));
   const [cart, setCart] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
 
   // In browser look for Initial Cart, but not on Server, so run getInitialCart on first render
   useEffect(() => {
@@ -20,14 +21,22 @@ const Cart = ({ children }) => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
-  const addItemToCart = (id, qty = 1) => {
-    const item = cart.find((i) => i.id === id);
+  const openCart = () => {
+    setIsOpen(true);
+  };
+
+  const closeCart = () => {
+    setIsOpen(false);
+  };
+
+  const addItemToCart = (product, qty = 1) => {
+    const item = cart.find((i) => i.id === product.id);
     if (item) {
       // increase qty
       item.qty += qty;
       setCart([...cart]);
     } else {
-      setCart([...cart, { id, qty }]);
+      setCart([...cart, { ...product, qty }]);
     }
   };
 
@@ -40,6 +49,10 @@ const Cart = ({ children }) => {
     cart,
     addItemToCart,
     removeItemFromCart,
+
+    isOpen,
+    openCart,
+    closeCart,
   };
   return <Context.Provider value={exposed}>{children}</Context.Provider>;
 };

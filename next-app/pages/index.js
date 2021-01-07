@@ -39,7 +39,7 @@ const Price = styled.div`
 const renderProduct = (product, addItemToCart) => {
   const handleClick = (event) => {
     event.stopPropagation();
-    addItemToCart(product.id);
+    addItemToCart(product);
   };
   return (
     <Link key={product.id} href={product.slug}>
