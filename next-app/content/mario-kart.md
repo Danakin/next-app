@@ -1,4 +1,5 @@
 ---
+id: 3
 name: Mario Kart
 description: The most fun ever
 price: 2000

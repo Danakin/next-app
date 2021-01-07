@@ -1,4 +1,5 @@
 ---
+id: 2
 name: Cooking Classes
 description: A great way to learn delicious things and meet people
 price: 20000
