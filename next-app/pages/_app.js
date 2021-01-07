@@ -6,11 +6,7 @@ const MyApp = ({ Component, pageProps }) => {
       <Link href="/">
         <a>Home</a>
       </Link>
-      <Link href="/about">
-        <a>About Page</a>
-      </Link>
       <Component {...pageProps} />
-      <footer>Danny Festor was here</footer>
     </>
   );
 };
