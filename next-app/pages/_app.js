@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Normalize } from "styled-normalize";
+import CartProvider from "../context/Cart";
 
 import Navbar from "../components/Navbar";
 
@@ -19,13 +20,15 @@ const Page = styled.div`
 
 const MyApp = ({ Component, pageProps }) => {
   return (
-    <Container>
-      <Normalize />
-      <Navbar />
-      <Page>
-        <Component {...pageProps} />
-      </Page>
-    </Container>
+    <CartProvider>
+      <Container>
+        <Normalize />
+        <Navbar />
+        <Page>
+          <Component {...pageProps} />
+        </Page>
+      </Container>
+    </CartProvider>
   );
 };
 
