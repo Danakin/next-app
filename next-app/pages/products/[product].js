@@ -4,15 +4,46 @@ import path from "path";
 import matter from "gray-matter";
 import marked from "marked";
 
+import styled from "styled-components";
+
+const Container = styled.div`
+  background: white;
+  padding: 1rem 2rem;
+  margin: 0.5rem 0;
+`;
+
+const Title = styled.div`
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+`;
+
+const Subtitle = styled.p`
+  padding: 0.75rem 1rem;
+  color: #666;
+`;
+
+const Price = styled.span`
+  font-size: 2rem;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  border: 1px solid #3b79cd;
+  font-weight: 800;
+  display: inline-block;
+  margin: 1rem 0;
+`;
+
 const Product = ({ product: { data, content } }) => {
   const html = marked(content);
   return (
-    <div>
-      <h1>{data.name}</h1>
-      <p>{data.description}</p>
-      <p>${data.price / 100}</p>
+    <Container>
+      <Title>
+        <h1>{data.name}</h1>
+        <Subtitle>{data.description}</Subtitle>
+      </Title>
+      <Price>${data.price / 100}</Price>
       <div dangerouslySetInnerHTML={{ __html: html }} />
-    </div>
+    </Container>
   );
 };
 
