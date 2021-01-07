@@ -6,11 +6,7 @@ import marked from "marked";
 
 import styled from "styled-components";
 
-const Container = styled.div`
-  background: white;
-  padding: 1rem 2rem;
-  margin: 0.5rem 0;
-`;
+import Page from "../../components/styled/Page";
 
 const Title = styled.div`
   display: flex;
@@ -36,14 +32,14 @@ const Price = styled.span`
 const Product = ({ product: { data, content } }) => {
   const html = marked(content);
   return (
-    <Container>
+    <Page>
       <Title>
         <h1>{data.name}</h1>
         <Subtitle>{data.description}</Subtitle>
       </Title>
       <Price>${data.price / 100}</Price>
       <div dangerouslySetInnerHTML={{ __html: html }} />
-    </Container>
+    </Page>
   );
 };
 
