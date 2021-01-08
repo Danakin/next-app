@@ -22,17 +22,26 @@ const getProducts = () => {
 };
 
 exports.handler = async (event, context, callback) => {
-  const { cart } = JSON.parse(event.body);
-  const products = getProducts();
+  // const { cart } = JSON.parse(event.body);
 
-  const cartWithProducts = cart.map(({ id, qty }) => {
-    const product = products.find((p) => p.id === id);
-    return { ...product, qty };
-  });
+  // process.env.STRIPE_PUBLIC_KEY;
 
-  let total = cartWithProducts.reduce((acc, val) => {
-    return acc + (val.price / 100) * val.qty; // TODO: /100 correct??
-  }, 0);
+  // const products = getProducts();
+
+  // const cartWithProducts = cart.map(({ id, qty }) => {
+  //   const product = products.find((p) => p.id === id);
+  //   return { ...product, qty };
+  // });
+
+  // let total = cartWithProducts.reduce((acc, val) => {
+  //   return acc + (val.price / 100) * val.qty; // TODO: /100 correct??
+  // }, 0);
+
+  const options = {
+    statusCode: 200,
+    body: "I have charged that card many times!",
+  };
+  console.log(options);
 
   // talking to Stripe
   // charging the card
@@ -40,8 +49,5 @@ exports.handler = async (event, context, callback) => {
   //   statusCode: 200,
   //   body: "I have charged that card many times!",
   // };
-  callback(null, {
-    statusCode: 200,
-    body: "I have charged that card many times!",
-  });
+  callback(null, options);
 };
