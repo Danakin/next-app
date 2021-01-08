@@ -2,7 +2,7 @@ const fs = require("fs"); // can't use import because server is running node
 const path = require("path");
 
 const matter = require("gray-matter");
-const { callbackify } = require("util");
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const getProducts = () => {
   const directory = path.join(process.cwd(), "content");
@@ -21,29 +21,42 @@ const getProducts = () => {
   return products;
 };
 
-exports.handler = async (event, context, callback) => {
-  // const { cart } = JSON.parse(event.body);
+exports.handler = async (event, context) => {
+  const { cart } = JSON.parse(event.body);
 
   // process.env.STRIPE_PUBLIC_KEY;
 
-  // const products = getProducts();
+  const products = getProducts();
 
-  // const cartWithProducts = cart.map(({ id, qty }) => {
-  //   const product = products.find((p) => p.id === id);
-  //   return { ...product, qty };
-  // });
+  const cartWithProducts = cart.map(({ id, qty }) => {
+    const product = products.find((p) => p.id === id);
+    return { ...product, qty };
+  });
 
-  // let total = cartWithProducts.reduce((acc, val) => {
-  //   return acc + (val.price / 100) * val.qty; // TODO: /100 correct??
-  // }, 0);
-
-  const options = {
-    statusCode: 200,
-    body: {
-      // cart: cart,
-      msg: "I have charged that card many times!",
-      event: event,
+  // talking to stripe
+  const lineItems = cartWithProducts.map((product) => ({
+    price_data: {
+      currency: "usd",
+      product_data: {
+        name: product.name,
+      },
+      unit_amount: product.price,
     },
+    quantity: product.qty,
+  }));
+
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ["card"],
+    line_items: lineItems,
+    mode: "payment",
+    success_url: `${process.env.URL}/success`,
+    cancel_url: `${process.env.URL}/cancelled`,
+  });
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify({
+      id: session.id,
+    }),
   };
-  callback(null, options);
 };
