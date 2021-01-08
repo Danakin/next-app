@@ -22,6 +22,13 @@ const getProducts = () => {
 };
 
 exports.handler = async (event, context, callback) => {
+  return {
+    statusCode: 200,
+    body: {
+      event,
+      context,
+    },
+  };
   const { cart } = JSON.parse(event.body);
 
   // process.env.STRIPE_PUBLIC_KEY;
