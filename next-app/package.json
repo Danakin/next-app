@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "export": "next export",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "predev": "node ./buildFunctionContent",
+    "prebuild": "node ./buildFunctionContent"
   },
   "author": "Danny Festor",
   "license": "ISC",

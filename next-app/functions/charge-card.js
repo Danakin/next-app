@@ -1,32 +1,8 @@
-const fs = require("fs"); // can't use import because server is running node
-const path = require("path");
-
-const matter = require("gray-matter");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-
-const getProducts = () => {
-  const directory = path.join(process.cwd(), "content");
-  const filenames = fs.readdirSync(directory);
-
-  const products = filenames.map((filename) => {
-    const fileContent = fs
-      .readFileSync(path.join(directory, filename))
-      .toString();
-
-    const { data } = matter(fileContent);
-
-    return data;
-  });
-
-  return products;
-};
+const products = require("./products.json");
 
 exports.handler = async (event, context) => {
   const { cart } = JSON.parse(event.body);
-
-  // process.env.STRIPE_PUBLIC_KEY;
-
-  const products = getProducts();
 
   const cartWithProducts = cart.map(({ id, qty }) => {
     const product = products.find((p) => p.id === id);
