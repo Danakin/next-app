@@ -22,14 +22,7 @@ const getProducts = () => {
 };
 
 exports.handler = async (event, context, callback) => {
-  return {
-    statusCode: 200,
-    body: {
-      event,
-      context,
-    },
-  };
-  const { cart } = JSON.parse(event.body);
+  // const { cart } = JSON.parse(event.body);
 
   // process.env.STRIPE_PUBLIC_KEY;
 
@@ -47,19 +40,10 @@ exports.handler = async (event, context, callback) => {
   const options = {
     statusCode: 200,
     body: {
-      cart: cart,
-      total: total,
+      // cart: cart,
       msg: "I have charged that card many times!",
       event: event,
     },
   };
-  console.log(options);
-
-  // talking to Stripe
-  // charging the card
-  // return {
-  //   statusCode: 200,
-  //   body: "I have charged that card many times!",
-  // };
   callback(null, options);
 };
