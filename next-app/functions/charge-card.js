@@ -22,7 +22,7 @@ const getProducts = () => {
 };
 
 exports.handler = async (event, context, callback) => {
-  // const { cart } = JSON.parse(event.body);
+  const { cart } = JSON.parse(event.body);
 
   // process.env.STRIPE_PUBLIC_KEY;
 
@@ -43,6 +43,7 @@ exports.handler = async (event, context, callback) => {
       cart: cart,
       total: total,
       msg: "I have charged that card many times!",
+      event: event,
     },
   };
   console.log(options);
