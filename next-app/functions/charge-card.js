@@ -39,7 +39,11 @@ exports.handler = async (event, context, callback) => {
 
   const options = {
     statusCode: 200,
-    body: "I have charged that card many times!",
+    body: {
+      cart: cart,
+      total: total,
+      msg: "I have charged that card many times!",
+    },
   };
   console.log(options);
 
